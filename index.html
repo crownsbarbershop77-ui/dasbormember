@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data Member Crowns Barbershop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Oswald:wght@400;500&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  --bg:#ffffff; --fg:#0a0a0a; --muted:#6b6b6b; --line:#0a0a0a; --soft:#f2f2f2; --deco:.07;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0a0a0a;--fg:#fafafa;--muted:#a3a3a3;--line:#fafafa;--soft:#1a1a1a;--deco:.09}
+}
+:root[data-theme="dark"]{--bg:#0a0a0a;--fg:#fafafa;--muted:#a3a3a3;--line:#fafafa;--soft:#1a1a1a;--deco:.09}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Oswald","Arial Narrow",Arial,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+.deco{position:fixed;inset:0;pointer-events:none;z-index:0;color:var(--fg);opacity:var(--deco)}
+.deco svg{position:absolute;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.d1{width:300px;top:2%;left:-40px;transform:rotate(-20deg)}
+.d2{width:260px;top:8%;right:-30px;transform:rotate(25deg)}
+.d3{width:110px;bottom:4%;left:3%}
+.d4{width:300px;bottom:10%;right:2%;transform:rotate(-12deg)}
+.d5{width:240px;top:48%;left:40%;transform:rotate(70deg)}
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 20px 60px}
+header{text-align:center;margin-bottom:32px}
+.crown{width:44px;height:auto;fill:var(--fg);margin-bottom:6px}
+h1{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-weight:900;font-size:clamp(28px,6vw,48px);margin:0;letter-spacing:.5px}
+.sub{color:var(--muted);letter-spacing:4px;text-transform:uppercase;font-size:13px;margin-top:8px}
+.rule{height:2px;background:var(--line);width:120px;margin:16px auto 0;position:relative}
+.rule::after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:var(--line)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.bar input{flex:1 1 180px;font:inherit;font-size:15px;padding:11px 14px;border:2px solid var(--line);background:var(--bg);color:var(--fg);border-radius:0;outline:none}
+.bar input:focus{box-shadow:4px 4px 0 var(--line)}
+button{font:inherit;letter-spacing:2px;text-transform:uppercase;font-size:14px;padding:11px 20px;border:2px solid var(--line);background:var(--fg);color:var(--bg);cursor:pointer;border-radius:0}
+button:hover{opacity:.85}
+button.ghost{background:transparent;color:var(--fg)}
+.wrap{border:2px solid var(--line);background:var(--bg);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th{background:var(--fg);color:var(--bg);text-transform:uppercase;letter-spacing:3px;font-weight:500;font-size:13px;padding:14px;text-align:left}
+td{padding:14px;border-top:1px solid var(--line);vertical-align:middle}
+tbody tr:nth-child(even){background:var(--soft)}
+.no{font-weight:500;letter-spacing:2px;white-space:nowrap}
+.name{font-size:17px}
+.tot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.count{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:26px;min-width:64px}
+.count small{font-family:"Oswald",Arial,sans-serif;font-weight:400;font-size:13px;color:var(--muted)}
+.checks{display:flex;gap:8px}
+.checks label{cursor:pointer}
+.checks input{position:absolute;opacity:0;width:0;height:0}
+.checks span{display:flex;width:30px;height:30px;border:2px solid var(--line);align-items:center;justify-content:center;font-size:12px;color:var(--muted);background:var(--bg)}
+.checks input:checked+span{background:var(--fg);color:var(--bg)}
+.checks input:checked+span::after{content:"\2713";font-size:16px}
+.checks input:not(:checked)+span::after{content:attr(data-n)}
+.checks input:focus-visible+span{outline:2px dashed var(--fg);outline-offset:2px}
+.del{background:transparent;color:var(--muted);border:none;padding:6px;font-size:18px;letter-spacing:0}
+.edit{background:transparent;color:var(--muted);border:none;padding:2px 6px;font-size:16px;letter-spacing:0;margin-left:6px}
+.noin{width:96px;font:inherit;padding:6px 8px;border:2px solid var(--line);background:var(--bg);color:var(--fg);border-radius:0;outline:none;letter-spacing:2px}
+.empty{text-align:center;color:var(--muted);padding:30px;letter-spacing:2px}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:14px;color:var(--muted);font-size:13px;letter-spacing:2px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="deco" aria-hidden="true">
+  <svg class="d1" viewBox="0 0 100 100"><circle cx="24" cy="80" r="12"/><circle cx="56" cy="84" r="12"/><path d="M31 70 L78 8 L72 6 L44 50"/><path d="M50 73 L22 8 L28 6 L48 50"/><circle cx="46" cy="50" r="1.5"/></svg>
+  <svg class="d2" viewBox="0 0 120 50"><rect x="2" y="14" width="64" height="22" rx="4"/><path d="M66 18 H116 L108 34 H66"/><path d="M72 18 V34 M82 18 V34 M92 18 V34 M102 18 V34"/></svg>
+  <svg class="d3" viewBox="0 0 40 120"><rect x="8" y="14" width="24" height="92" rx="4"/><path d="M8 38 L32 22 M8 58 L32 42 M8 78 L32 62 M8 98 L32 82"/><rect x="6" y="4" width="28" height="10" rx="3"/><rect x="6" y="106" width="28" height="10" rx="3"/></svg>
+  <svg class="d4" viewBox="0 0 140 60"><path d="M6 22 H112 L134 30 L112 38 H6 Z"/><path d="M18 22 V10 M18 38 V50"/><path d="M122 27 L130 30 L122 33"/></svg>
+  <svg class="d5" viewBox="0 0 140 40"><path d="M6 14 H110 Q134 14 134 22 T110 30 H6 Z"/><circle cx="116" cy="22" r="3"/><path d="M24 14 V30"/></svg>
+</div>
+<main>
+  <header>
+    <svg class="crown" viewBox="0 0 64 40" aria-hidden="true"><path d="M4 36 L8 8 L22 22 L32 4 L42 22 L56 8 L60 36 Z"/></svg>
+    <h1>Data Member Crowns Barbershop</h1>
+    <div class="sub">Kartu Loyalitas Member</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="bar">
+    <input id="nameIn" type="text" placeholder="Nama member baru" maxlength="40" aria-label="Nama member baru">
+    <button id="addBtn">+ Tambah</button>
+  </div>
+  <div class="bar">
+    <input id="search" type="search" placeholder="Cari nama atau nomor member" aria-label="Cari member">
+  </div>
+
+  <div class="wrap">
+    <table>
+      <thead><tr><th style="width:160px">No. Member</th><th>Nama Member</th><th>Total Cukur</th><th style="width:44px"></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <div class="foot"><span id="info"></span><button class="ghost" id="resetBtn">Reset ceklis</button></div>
+</main>
+
+<script>
+(function(){
+  var MAX = 4, KEY = "crowns-members-v1";
+  var members = [], next = 1;
+  var rows = document.getElementById("rows"), info = document.getElementById("info");
+  var nameIn = document.getElementById("nameIn"), search = document.getElementById("search");
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw){ var d = JSON.parse(raw); if(d && Array.isArray(d.members)){ members = d.members; next = d.next || members.length + 1; return; } }
+    }catch(e){}
+    members = [
+      {id:1,name:"Budi Santoso",c:[1,1,0,0]},
+      {id:2,name:"Andi Pratama",c:[1,1,1,1]},
+      {id:3,name:"Rizky Maulana",c:[0,0,0,0]}
+    ];
+    next = 4;
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify({members:members,next:next})); }catch(e){}
+  }
+  function pad(n){ return "M-" + String(n).padStart(3,"0"); }
+  function total(m){ return m.c.reduce(function(a,b){return a+b;},0); }
+
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function render(){
+    var q = search.value.trim().toLowerCase();
+    rows.textContent = "";
+    var shown = members.filter(function(m){
+      return !q || m.name.toLowerCase().indexOf(q) > -1 || m.no.toLowerCase().indexOf(q) > -1;
+    });
+    if(!shown.length){
+      var tr0 = el("tr"), td0 = el("td","empty","Belum ada data member");
+      td0.colSpan = 4; tr0.appendChild(td0); rows.appendChild(tr0);
+    }
+    shown.forEach(function(m){
+      var tr = el("tr");
+      var tdn = el("td","no"), ns = el("span",null,m.no), eb = el("button","edit","\u270e");
+      eb.title = "Edit nomor member"; eb.setAttribute("aria-label","Edit nomor member " + m.name);
+      eb.addEventListener("click", function(){
+        var inp = document.createElement("input");
+        inp.type = "text"; inp.value = m.no; inp.maxLength = 12; inp.className = "noin";
+        inp.setAttribute("aria-label","Nomor member baru");
+        var done = false;
+        function commit(ok){
+          if(done) return; done = true;
+          var v = inp.value.trim(), dupMsg = "";
+          if(ok && v && v !== m.no){
+            var dup = members.some(function(x){return x !== m && x.no.toLowerCase() === v.toLowerCase();});
+            if(dup){ dupMsg = "Nomor " + v + " sudah dipakai member lain"; }
+            else { m.no = v; save(); }
+          }
+          render();
+          if(dupMsg) info.textContent = dupMsg;
+        }
+        inp.addEventListener("keydown", function(e){
+          if(e.key === "Enter") commit(true);
+          else if(e.key === "Escape") commit(false);
+        });
+        inp.addEventListener("blur", function(){ commit(true); });
+        tdn.textContent = "";
+        tdn.appendChild(inp);
+        inp.focus(); inp.select();
+      });
+      tdn.appendChild(ns); tdn.appendChild(eb); tr.appendChild(tdn);
+      tr.appendChild(el("td","name",m.name));
+
+      var td = el("td"), box = el("div","tot");
+      var cnt = el("div","count", String(total(m)));
+      var sm = el("small"," / " + MAX + " cukur"); cnt.appendChild(sm);
+      var checks = el("div","checks");
+      for(var i=0;i<MAX;i++){
+        (function(i){
+          var lb = el("label"), inp = document.createElement("input");
+          inp.type = "checkbox"; inp.checked = !!m.c[i];
+          inp.setAttribute("aria-label","Cukur ke-" + (i+1) + " untuk " + m.name);
+          var sp = el("span"); sp.setAttribute("data-n", String(i+1));
+          inp.addEventListener("change", function(){
+            m.c[i] = inp.checked ? 1 : 0;
+            save(); render();
+          });
+          lb.appendChild(inp); lb.appendChild(sp); checks.appendChild(lb);
+        })(i);
+      }
+      box.appendChild(cnt); box.appendChild(checks); td.appendChild(box); tr.appendChild(td);
+
+      var tdd = el("td"), del = el("button","del","\u00d7");
+      del.title = "Hapus member"; del.setAttribute("aria-label","Hapus " + m.name);
+      del.addEventListener("click", function(){
+        confirmTwice(del, "Hapus?", function(){
+          members = members.filter(function(x){return x.id !== m.id;});
+          save(); render();
+        });
+      });
+      tdd.appendChild(del); tr.appendChild(tdd);
+      rows.appendChild(tr);
+    });
+    var done = members.filter(function(m){return total(m) >= MAX;}).length;
+    info.textContent = members.length + " member \u00b7 " + done + " selesai " + MAX + "x cukur";
+  }
+
+  function confirmTwice(btn, label, action){
+    if(btn._armed){ clearTimeout(btn._t); btn._armed = false; action(); return; }
+    var orig = btn.textContent;
+    btn._armed = true; btn.textContent = label;
+    btn._t = setTimeout(function(){ btn._armed = false; btn.textContent = orig; }, 3000);
+  }
+
+  function add(){
+    var n = nameIn.value.trim();
+    if(!n){ nameIn.focus(); return; }
+    while(members.some(function(x){return x.no === pad(next);})) next++;
+    var nid = next++;
+    members.push({id:nid, no:pad(nid), name:n, c:[0,0,0,0]});
+    nameIn.value = "";
+    save(); render();
+  }
+
+  document.getElementById("addBtn").addEventListener("click", add);
+  nameIn.addEventListener("keydown", function(e){ if(e.key === "Enter") add(); });
+  search.addEventListener("input", render);
+  var resetBtn = document.getElementById("resetBtn");
+  resetBtn.addEventListener("click", function(){
+    confirmTwice(resetBtn, "Yakin? Klik lagi", function(){
+      members.forEach(function(m){ m.c = [0,0,0,0]; });
+      save(); render();
+    });
+  });
+
+  load();
+  members.forEach(function(m){ if(!m.no) m.no = pad(m.id); });
+  render();
+})();
+</script>
+</body>
+</html>
